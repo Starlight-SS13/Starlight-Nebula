@@ -182,7 +182,7 @@
 	return ..()
 
 /obj/item/clothing/mask/smokable/use_on_mob(mob/living/target, mob/living/user, animate = TRUE)
-	if(target.on_fire)
+	if(target.is_on_fire())
 		user.do_attack_animation(target)
 		light(SPAN_NOTICE("\The [user] coldly lights the \the [src] with the burning body of \the [target]."))
 		return TRUE
@@ -384,7 +384,7 @@
 		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 		return TRUE
 
-	if(!lit && target.on_fire)
+	if(!lit && target.is_on_fire())
 		user.do_attack_animation(target)
 		light(target, user)
 		return TRUE

@@ -83,12 +83,12 @@
 		else
 			msg += "[use_He] [use_is] looking a bit damp.\n"
 
-	if(fire_stacks > 0)
+	if(fire_intensity > 0)
 		msg += "[use_He] [use_is] looking highly flammable!\n"
-	else if(fire_stacks < 0)
+	else if(fire_intensity < 0)
 		msg += "[use_He] [use_is] looking rather damp.\n"
 
-	if(on_fire)
+	if(is_on_fire())
 		msg += "<span class='warning'>[use_He] [use_is] on fire!.</span>\n"
 
 	var/ssd_msg = species.get_ssd(src)
