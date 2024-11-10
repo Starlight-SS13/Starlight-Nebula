@@ -46,6 +46,10 @@
 	job_blacklist_by_default = TRUE
 	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_WHITELISTED
 
+	eye_low_light_vision_effectiveness    = 0.15
+	eye_low_light_vision_adjustment_speed = 0.3
+	eye_darksight_range                   = 7
+
 	var/list/adult_pain_emotes_with_pain_level = list(
 		list(/decl/emote/audible/drake_huff, /decl/emote/audible/drake_rattle) = 20
 	)
