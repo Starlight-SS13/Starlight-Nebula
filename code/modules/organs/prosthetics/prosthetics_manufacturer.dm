@@ -48,6 +48,7 @@
 	heat_discomfort_strings = list(
 		"You are dangerously close to overheating!"
 	)
+	validate_root_species = FALSE
 	/// Determines which bodyparts can use this limb.
 	var/list/applies_to_part
 	/// Prosthetics of this type are not available in chargen unless the map has the required tech level.

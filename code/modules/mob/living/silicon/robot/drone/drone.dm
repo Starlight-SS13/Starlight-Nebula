@@ -353,6 +353,7 @@
 	bodytype_flag = 0
 	bodytype_category = "drone body"
 	uid = "bodytype_drone"
+	validate_root_species = FALSE
 
 /decl/bodytype/drone/Initialize()
 	if(!length(equip_adjust))

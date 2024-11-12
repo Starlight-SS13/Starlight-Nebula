@@ -489,12 +489,14 @@ var/global/list/simplemob_icon_bitflag_cache = list()
 	name = "animal"
 	bodytype_flag = 0
 	bodytype_category = "animal body"
+	validate_root_species = FALSE
 
 /decl/bodytype/quadruped/animal
 	abstract_type = /decl/bodytype/quadruped/animal
 	name = "quadruped animal"
 	bodytype_flag = 0
 	bodytype_category = "quadrupedal animal body"
+	validate_root_species = FALSE
 
 /mob/living/simple_animal/get_base_telegraphed_melee_accuracy()
 	return telegraphed_melee_accuracy

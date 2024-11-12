@@ -330,6 +330,9 @@ var/global/list/bodytypes_by_category = list()
 	/// Set to FALSE if the mob will update prone icon based on state rather than transform.
 	var/rotate_on_prone = TRUE
 
+	// Set to FALSE for bodytypes with no associated species (such as prosthetics or animal bodytypes)
+	var/validate_root_species = TRUE
+
 /decl/bodytype/Initialize()
 	. = ..()
 	icon_deformed ||= icon_base
@@ -416,7 +419,7 @@ var/global/list/bodytypes_by_category = list()
 	. = ..()
 
 	// TODO: revisit if we ever want to share bodytypes between species.
-	if(!get_species_by_key(associated_root_species_name))
+	if(validate_root_species && !get_species_by_key(associated_root_species_name))
 		. += "null or invalid associated root species name"
 
 	// TODO: Maybe make age descriptors optional, in case someone wants a 'timeless entity' species?

@@ -28,8 +28,8 @@
 	knockout_message = "collapses inward, forming a disordered puddle of goo."
 	remains_type = /obj/effect/decal/cleanable/ash
 
-//	blood_color = "#05FF9B"
-	flesh_color = "#05FFFB"
+//	blood_color = "#05ff9b"
+	flesh_color = "#05fffb"
 
 	hunger_factor = DEFAULT_HUNGER_FACTOR * 4
 	thirst_factor = 0

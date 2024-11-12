@@ -14,16 +14,16 @@
 	icon = null
 	set_invisibility(INVISIBILITY_ABSTRACT)
 	dump_contents()
-	QDEL_IN(src, 1.5 SECONDS)
-
-	if(animation_state && animation_icon)
-		var/atom/movable/overlay/animation
-		animation = new(loc)
-		animation.icon_state = "blank"
-		animation.icon = animation_icon
-		animation.master = src
-		flick(animation_state, animation)
-		QDEL_IN(animation, 1.5 SECONDS)
+	if(!QDELETED(src))
+		QDEL_IN(src, 1.5 SECONDS)
+		if(isturf(loc) && animation_state && animation_icon)
+			var/atom/movable/overlay/animation
+			animation = new(loc)
+			animation.icon_state = "blank"
+			animation.icon = animation_icon
+			animation.master = src
+			flick(animation_state, animation)
+			QDEL_IN(animation, 1.5 SECONDS)
 
 	return TRUE
 
