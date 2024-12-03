@@ -90,12 +90,16 @@
 /mob/living/exosuit/adjustFireLoss(var/amount, var/obj/item/mech_component/MC = pick(list(arms, legs, body, head)), var/do_update_health = TRUE)
 	if(MC)
 		MC.take_burn_damage(amount)
+		if(amount > 3)
+			flash_silhouette(flash_color = COLOR_ORANGE)
 		if(do_update_health)
 			update_health() // TODO: unify these procs somehow instead of having weird brute-wrapping behavior as the default.
 
 /mob/living/exosuit/adjustBruteLoss(var/amount, var/obj/item/mech_component/MC = pick(list(arms, legs, body, head)), var/do_update_health = TRUE)
 	if(MC)
 		MC.take_brute_damage(amount)
+		if(amount > 3)
+			flash_silhouette(flash_color = COLOR_RED)
 	..()
 
 /mob/living/exosuit/proc/zoneToComponent(var/zone)

@@ -91,20 +91,24 @@
 	SHOULD_CALL_PARENT(FALSE) // take/heal overall call update_health regardless of arg
 	if(amount > 0)
 		take_overall_damage(amount, 0)
+		if(istype(ai))
+			ai.retaliate()
+		if(amount >= 3)
+			flash_silhouette(flash_color = COLOR_RED)
 	else
 		heal_overall_damage(-amount, 0)
 	BITSET(hud_updateflag, HEALTH_HUD)
-	if(amount > 0 && istype(ai))
-		ai.retaliate()
 
 /mob/living/human/adjustFireLoss(var/amount, var/do_update_health = TRUE)
 	if(amount > 0)
 		take_overall_damage(0, amount)
+		if(istype(ai))
+			ai.retaliate()
+		if(amount >= 3)
+			flash_silhouette(flash_color = COLOR_RED)
 	else
 		heal_overall_damage(0, -amount)
 	BITSET(hud_updateflag, HEALTH_HUD)
-	if(amount > 0 && istype(ai))
-		ai.retaliate()
 
 /mob/living/human/getCloneLoss()
 	var/amount = 0
@@ -273,6 +277,10 @@ In most cases it makes more sense to use apply_damage() instead! And make sure t
 		return
 	var/obj/item/organ/external/picked = pick(parts)
 	if(picked.take_external_damage(brute, burn, override_droplimb = override_droplimb))
+		if(brute > 3)
+			flash_silhouette(flash_color = COLOR_RED)
+		else if(burn > 3)
+			flash_silhouette(flash_color = COLOR_ORANGE)
 		BITSET(hud_updateflag, HEALTH_HUD)
 	update_health()
 
@@ -317,6 +325,11 @@ In most cases it makes more sense to use apply_damage() instead! And make sure t
 			apply_damage(damage = brute_avg, damagetype = BRUTE, damage_flags = dam_flags, used_weapon = used_weapon, silent = TRUE, given_organ = E)
 		if(burn_avg)
 			apply_damage(damage = burn_avg, damagetype = BURN, damage_flags = dam_flags, used_weapon = used_weapon, silent = TRUE, given_organ = E)
+
+	if(brute > 3)
+		flash_silhouette(flash_color = COLOR_RED)
+	else if(burn > 3)
+		flash_silhouette(flash_color = COLOR_ORANGE)
 
 	update_health()
 	BITSET(hud_updateflag, HEALTH_HUD)
