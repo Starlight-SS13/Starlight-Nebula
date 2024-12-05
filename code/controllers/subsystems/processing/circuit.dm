@@ -1,4 +1,4 @@
-//Additional helper procs found in /code/modules/integrated_electgronics/core/saved_circuits.dm
+//Additional helper procs found in /code/game/integrated_electgronics/core/saved_circuits.dm
 
 PROCESSING_SUBSYSTEM_DEF(circuit)
 	name = "Circuit"

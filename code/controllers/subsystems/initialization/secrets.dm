@@ -1,8 +1,8 @@
 /*
- * Secret content/hotloaded content subsystem. 
- * 
+ * Secret content/hotloaded content subsystem.
+ *
  * Very barebones at the moment, just slapping it down so there's something there to work with.
- * 
+ *
  * Simple guide:
  * - Create a .json file in data/secrets/ or any child subfolder.
  * - Put a json dictionary in there with a field "path" pointing to a valid datum type.
@@ -11,25 +11,25 @@
  * - Put a field "secret_category" in the dictionary with a single text category to file it in one.
  * - The JSON will be loaded early in init and can be retrieved for use in lore notes or whatever.
  *
- * Keep in mind that this system can SERIOUSLY MESS YOU UP - there are datum types that will CRASH 
- * YOUR SERVER if improperly created/initialized, and this system ignores all named arguments or 
- * argument ordering when it passes the loaded JSON to the datum instance. DO NOT TRY TO CREATE A 
+ * Keep in mind that this system can SERIOUSLY MESS YOU UP - there are datum types that will CRASH
+ * YOUR SERVER if improperly created/initialized, and this system ignores all named arguments or
+ * argument ordering when it passes the loaded JSON to the datum instance. DO NOT TRY TO CREATE A
  * PATH THAT YOU DO NOT FULLY UNDERSTAND TO BE SAFE TO CREATE. YOUR INSURANCE WILL NOT COVER IT.
- * 
+ *
  * Vague todo with ideas for future conversion/use:
  * - Map templates
  * - Materials
  * - Chemical recipes
  * - Verb to load arbitrary json content from a file on local storage.
- * 
+ *
  * Secrets can be retrieved with:
  *  var/datum/secret_stuff = SSsecrets.retrieve_secret("your unique key", /some/path/for/compile/time/validation)
  *  var/datum/random_secret_stuff = SSsecrets.retrieve_random_secret("your unique category", bool_if_you_want_no_duplicates, /some/path/for/compile/time/validation)
  *  var/list/bunch_of_secrets = SSsecrets.retrieve_secrets_by_category("your unique category")
- * 
- * You can refer to the /datum/secret_note and /obj/item/paper/secret_note types in 
- * code/modules/hotloading/note.dm for a practical example of how this system can be used.
- * 
+ *
+ * You can refer to the /datum/secret_note and /obj/item/paper/secret_note types in
+ * code/game/hotloading/note.dm for a practical example of how this system can be used.
+ *
  */
 
 SUBSYSTEM_DEF(secrets)
@@ -83,7 +83,7 @@ SUBSYSTEM_DEF(secrets)
 	S.secrets_by_category = list()
 
 	. = ..()
-	
+
 // Copied from customitems loading; scrapes entire file tree for json files.
 /datum/controller/subsystem/secrets/Initialize()
 
