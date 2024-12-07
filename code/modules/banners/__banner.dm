@@ -12,7 +12,6 @@
 	var/hung_desc        = "The banner is rather unremarkable."
 	var/banner_type      = /obj/item/banner
 	var/embroiderable    = TRUE
-	var/name_prefix
 	var/list/decals
 	var/trim_color
 
