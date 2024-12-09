@@ -27,7 +27,8 @@
 
 	if(!held && !body.restrained() && prob(2.5))
 		var/list/touchables = list()
-		for(var/obj/O in range(1,get_turf(body)))
+		var/turf/my_turf = get_turf(body)
+		for(var/obj/O in (use_cross_z_detection ? my_turf.range_cross_z(1) : range(1, my_turf)))
 			if(O.simulated && CanPhysicallyInteractWith(body, O) && !is_type_in_list(O, no_touchie))
 				touchables += O
 		if(touchables.len)

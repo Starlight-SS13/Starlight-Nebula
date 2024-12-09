@@ -102,9 +102,7 @@
 /proc/get_dist_euclidian(atom/Loc1, atom/Loc2)
 	var/dx = Loc1.x - Loc2.x
 	var/dy = Loc1.y - Loc2.y
-
 	var/dist = sqrt(dx**2 + dy**2)
-
 	return dist
 
 /proc/get_dist_bounds(var/target, var/source) // Alternative to get_dist for multi-turf objects

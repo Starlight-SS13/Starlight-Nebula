@@ -18,7 +18,7 @@
 	if(nut > max_nut * 0.75 || beast.incapacitated())
 		LAZYCLEARLIST(prey)
 		return
-	for(var/mob/living/simple_animal/S in range(beast,1))
+	for(var/mob/living/simple_animal/S in (use_cross_z_detection ? beast.range_cross_z(1) : range(beast,1)))
 		if(S == beast)
 			continue
 		if(S.stat != DEAD)
@@ -46,6 +46,6 @@
 				if(M)
 					. |= M
 		else if(body.get_nutrition() < body.get_max_nutrition() * 0.75) //time to look for some food
-			for(var/mob/living/L in view(body, dist))
+			for(var/mob/living/L in (use_cross_z_detection ? body.view_cross_z(dist) : view(body, dist)))
 				if(attack_same_faction || L.faction != body.faction)
 					LAZYDISTINCTADD(prey, weakref(L))

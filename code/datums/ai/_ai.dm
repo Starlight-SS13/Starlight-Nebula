@@ -44,6 +44,9 @@
 	/// What directions can we wander in? Uses global.cardinal if unset.
 	var/list/wander_directions
 
+	/// Should we use more expensive distance, viewer and hearer checking that goes across z-level borders?
+	var/use_cross_z_detection = FALSE
+
 	/// Should we retaliate/startle when grabbed or buckled?
 	var/spooked_by_grab = TRUE
 	/// Can we automatically escape from buckling?

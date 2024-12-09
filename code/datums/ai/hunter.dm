@@ -6,7 +6,7 @@
 	// Fleeing takes precedence.
 	. = ..()
 	if(!.  && !get_target() && world.time >= next_hunt) // TODO: generalized nutrition process. && body.get_nutrition() < body.get_max_nutrition() * 0.5)
-		for(var/mob/living/snack in view(body)) //search for a new target
+		for(var/mob/living/snack in (use_cross_z_detection ? body.view_cross_z() : view(body))) //search for a new target
 			if(can_hunt(snack))
 				set_target(snack)
 				break
@@ -57,7 +57,7 @@
 		return
 
 	var/mob/living/target = get_target()
-	if(!istype(target) || QDELETED(target) || !(target in view(body)))
+	if(!istype(target) || QDELETED(target) || !(target in (use_cross_z_detection ? body.view_cross_z() : view(body))))
 		set_target(null)
 		resume_wandering()
 		return
