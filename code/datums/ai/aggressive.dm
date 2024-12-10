@@ -89,7 +89,7 @@
 			return FALSE
 	if(body.next_move >= world.time)
 		return FALSE
-	if(get_dist(body, target) > 1)
+	if((use_cross_z_detection ? get_dist_cross_z(body, target) : get_dist(body, target)) > 1)
 		move_to_target()
 		return FALSE
 	//Attacking
@@ -186,7 +186,7 @@
 		return
 
 	var/list/allies
-	var/list/around = view(body, 7)
+	var/list/around = use_cross_z_detection ? body.view_cross_z(7) : view(body, 7)
 	for(var/atom/movable/A in around)
 		if(A == body || !isliving(A))
 			continue
@@ -212,7 +212,8 @@
 	if(!istype(target) || !attackable(target) || !(target in list_targets(10)))
 		lose_target()
 		return
-	if(body.has_ranged_attack() && get_dist(body, target) <= body.get_ranged_attack_distance() && !move_only)
+	var/target_dist = use_cross_z_detection ? get_dist_cross_z(body, target) : get_dist(body, target)
+	if(body.has_ranged_attack() && target_dist <= body.get_ranged_attack_distance() && !move_only)
 		body.stop_automove()
 		open_fire()
 		return
@@ -223,11 +224,11 @@
 	// Base hostile mobs will just destroy everything in view.
 	// Mobs with an enemy list will filter the view by their enemies.
 	if(!only_attack_enemies)
-		return hearers(body, dist)-body
+		return (use_cross_z_detection ? body.hearers_cross_z(dist) : hearers(body, dist)) - body
 	var/list/enemies = get_enemies()
 	if(!LAZYLEN(enemies))
 		return
-	var/list/possible_targets = hearers(body, dist)-body
+	var/list/possible_targets = (use_cross_z_detection ? body.hearers_cross_z(dist) : hearers(body, dist)) - body
 	if(!length(possible_targets))
 		return
 	for(var/weakref/enemy in enemies) // Remove all entries that aren't in enemies

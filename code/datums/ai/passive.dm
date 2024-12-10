@@ -7,7 +7,7 @@
 /datum/mob_controller/passive/proc/update_targets()
 	//see if we should stop fleeing
 	var/atom/flee_target_atom = flee_target?.resolve()
-	if(istype(flee_target_atom) && (flee_target_atom.loc in view(body)))
+	if(istype(flee_target_atom) && (flee_target_atom.loc in (use_cross_z_detection ? body.view_cross_z() : view(body))))
 		startle()
 		stop_wandering()
 		if(body.MayMove())

@@ -106,7 +106,7 @@
 
 //returns a list of everybody we wanna do stuff with.
 /datum/mob_controller/aggressive/commanded/proc/get_targets_by_name(var/message, var/filter_friendlies = 0)
-	var/list/possible_targets = hearers(body, 10)
+	var/list/possible_targets = use_cross_z_detection ? body.hearers_cross_z(10) : hearers(body, 10)
 	for(var/mob/M in possible_targets)
 		if((filter_friendlies && is_friend(M)) || M.faction == body.faction || M == master)
 			continue

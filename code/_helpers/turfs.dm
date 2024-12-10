@@ -212,6 +212,19 @@
 
 	return new_turf
 
+/proc/get_dist_cross_z(turf/origin, turf/target)
+	if(!istype(origin) || !istype(target) || !(origin.z in SSmapping.get_connected_levels(target.z, include_lateral = TRUE)))
+		return INFINITY
+	if(origin == target)
+		return 0
+	var/datum/level_data/origin_level = SSmapping.levels_by_z[origin.z]
+	var/datum/level_data/target_level = SSmapping.levels_by_z[target.z]
+	if(origin_level == target_level)
+		return get_dist(origin, target)
+	if(!istype(origin_level) || !istype(target_level))
+		return INFINITY
+	return sqrt((((target.x + target_level.z_volume_level_x)-(origin.x + origin_level.z_volume_level_x))**2) + (((target.y + target_level.z_volume_level_y)-(origin.y + origin_level.z_volume_level_y))**2))
+
 /proc/get_dir_z_text(turf/origin, turf/target)
 
 	origin = get_turf(origin)

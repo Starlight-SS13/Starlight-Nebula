@@ -994,3 +994,87 @@
 
 /atom/proc/is_watertight()
 	return ATOM_IS_OPEN_CONTAINER(src)
+
+// Helper procs for detecting atoms across lateral z-level boundaries.Likely much,
+// much, MUCH more expensive than regular range/view/viewers/hearers, so use sparingly.
+// Technically will lose any turfs that don't have a mimic, regardless of distance into
+// neighboring z that it would like to scan. Should be close enough for government work.
+/atom/proc/viewers_cross_z(dist = world.view, atom/origin = src)
+	if(isnum(origin))
+		dist = origin
+		origin = src
+	if(!istype(origin))
+		return null
+	var/list/viewer_list = viewers(dist, origin)
+	if(!length(viewer_list))
+		return viewer_list
+	var/datum/level_data/origin_level = SSmapping.levels_by_z[origin.z]
+	if(!istype(origin_level))
+		return viewer_list
+	for(var/turf/turf in viewer_list)
+		var/turf/real_turf = turf.resolve_to_actual_turf()
+		if(turf != real_turf)
+			viewer_list |= real_turf
+			if(length(real_turf.contents))
+				viewer_list |= real_turf.contents
+	return viewer_list
+
+/atom/proc/view_cross_z(dist = world.view, atom/origin = src)
+	if(isnum(origin))
+		dist = origin
+		origin = src
+	if(!istype(origin))
+		return null
+	var/list/view_list = view(dist, origin)
+	if(!length(view_list))
+		return view_list
+	var/datum/level_data/origin_level = SSmapping.levels_by_z[origin.z]
+	if(!istype(origin_level))
+		return view_list
+	for(var/turf/turf in view_list)
+		var/turf/real_turf = turf.resolve_to_actual_turf()
+		if(turf != real_turf)
+			view_list |= real_turf
+			if(length(real_turf.contents))
+				view_list |= real_turf.contents
+	return view_list
+
+/atom/proc/hearers_cross_z(dist = world.view, atom/origin = src)
+	if(isnum(origin))
+		dist = origin
+		origin = src
+	if(!istype(origin))
+		return null
+	var/list/hearer_list = hearers(dist, origin)
+	if(!length(hearer_list))
+		return hearer_list
+	var/datum/level_data/origin_level = SSmapping.levels_by_z[origin.z]
+	if(!istype(origin_level))
+		return hearer_list
+	for(var/turf/turf in hearer_list)
+		var/turf/real_turf = turf.resolve_to_actual_turf()
+		if(turf != real_turf)
+			hearer_list |= real_turf
+			if(length(real_turf.contents))
+				hearer_list |= real_turf.contents
+	return hearer_list
+
+/atom/proc/range_cross_z(dist = world.view, atom/origin = src)
+	if(isnum(origin))
+		dist = origin
+		origin = src
+	if(!istype(origin))
+		return null
+	var/list/range_list = range(dist, origin)
+	if(!length(range_list))
+		return range_list
+	var/datum/level_data/origin_level = SSmapping.levels_by_z[origin.z]
+	if(!istype(origin_level))
+		return range_list
+	for(var/turf/turf in range_list)
+		var/turf/real_turf = turf.resolve_to_actual_turf()
+		if(turf != real_turf)
+			range_list |= real_turf
+			if(length(real_turf.contents))
+				range_list |= real_turf.contents
+	return range_list
