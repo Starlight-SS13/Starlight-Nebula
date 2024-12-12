@@ -51,10 +51,16 @@ var/global/list/limb_icon_cache = list()
 		addtimer(CALLBACK(last_owner, TYPE_PROC_REF(/mob, update_hair)), 1, TIMER_UNIQUE)
 	return ..()
 
-// For overriding on shapeshifters/changelings in the future.
-/obj/item/organ/external/proc/get_organ_appearance_bodytype()
-	RETURN_TYPE(/decl/bodytype)
-	return bodytype
+/obj/item/organ/external/set_organ_appearance_bodytype(decl/bodytype/new_bodytype, update_sprite_accessories = TRUE, skip_owner_update = FALSE)
+	. = ..()
+	if(.)
+		if(update_sprite_accessories)
+			sanitize_sprite_accessories(skip_update = TRUE)
+		_icon_cache_key = null
+		get_icon_for_bodytype()
+		update_icon()
+		if(owner && !skip_owner_update)
+			owner.update_body()
 
 /obj/item/organ/external/proc/update_limb_icon_file()
 	var/decl/bodytype/icon_bodytype = get_organ_appearance_bodytype()
@@ -123,7 +129,7 @@ var/global/list/organ_icon_cache = list()
 
 /obj/item/organ/external/proc/get_icon_cache_key_components()
 
-	. = list("[icon_state]_[species.name]_[get_organ_appearance_bodytype()?.name || "BAD_BODYTYPE"]_[render_alpha]_[icon]")
+	. = list("[icon_state]_[species.name]_[get_organ_appearance_bodytype()?.uid || "BAD_BODYTYPE"]_[render_alpha]_[icon]")
 
 	// Skeletons don't care about most icon appearance stuff.
 	if(limb_flags & ORGAN_FLAG_SKELETAL)

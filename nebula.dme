@@ -2822,6 +2822,7 @@
 #include "code\modules\mob\mob_intent.dm"
 #include "code\modules\mob\mob_layering.dm"
 #include "code\modules\mob\mob_movement.dm"
+#include "code\modules\mob\mob_organs.dm"
 #include "code\modules\mob\mob_snapshot.dm"
 #include "code\modules\mob\mob_status.dm"
 #include "code\modules\mob\mob_temperature.dm"

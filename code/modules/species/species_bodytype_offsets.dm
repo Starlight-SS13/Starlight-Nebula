@@ -21,6 +21,10 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	VAR_PRIVATE/list/_equip_adjust
 	VAR_PRIVATE/list/equip_overlays = list()
 
+// Will be used by changelings/shapeshifters in the future
+/decl/bodytype/proc/resolve_to_equipment_bodytype(mob/living/user)
+	return src
+
 /decl/bodytype/proc/get_equip_adjustments(mob/mob)
 	return _equip_adjust
 
