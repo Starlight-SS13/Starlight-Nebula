@@ -70,7 +70,7 @@ var/global/list/icon_state_cache = list()
 		var/mob_icon = global.default_onmob_icons[slot]
 		var/decl/bodytype/root_bodytype = user_mob?.get_bodytype()
 		if(istype(root_bodytype))
-			var/use_slot = (bodypart in root_bodytype.equip_adjust) ? bodypart : slot
+			var/use_slot = (bodypart in root_bodytype.get_equip_adjustments(user_mob)) ? bodypart : slot
 			return root_bodytype.get_offset_overlay_image(user_mob, mob_icon, mob_state, color, use_slot)
 		return overlay_image(mob_icon, mob_state, color, RESET_COLOR)
 
