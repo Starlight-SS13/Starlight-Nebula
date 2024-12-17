@@ -2,7 +2,7 @@
 	var/max_dismember_size = MOB_SIZE_SMALL
 
 /datum/ability_handler/predator/can_do_melee_invocation(mob/user, atom/target)
-	return istype(user) && !user.incapacitated() && isatom(target) && target.Adjacent(user)
+	return ..() || (istype(user) && !user.incapacitated() && isatom(target) && target.Adjacent(user))
 
 /datum/ability_handler/predator/do_melee_invocation(mob/user, atom/target)
 	// Nibbles
@@ -11,7 +11,7 @@
 			return handle_dismemberment(user, target)
 		if(istype(target, /obj/item/organ))
 			return handle_organ_destruction(user, target)
-	return FALSE
+	return ..()
 
 /datum/ability_handler/predator/proc/handle_organ_destruction(mob/user, obj/item/organ/chewtoy)
 	if(!chewtoy.is_internal())
