@@ -220,13 +220,10 @@
 		return PROCESS_KILL
 
 	update_icon()
-	if(istype(loc, /obj/structure/wall_sconce))
-		loc.update_icon()
-
-	// TODO: generalized ignition proc
-	if(isliving(loc))
-		var/mob/living/M = loc
-		M.IgniteMob()
+	if(loc)
+		if(istype(loc, /obj/structure/wall_sconce))
+			loc.update_icon()
+		loc.ignite_fire()
 
 	var/turf/location = get_turf(src)
 	if(location)

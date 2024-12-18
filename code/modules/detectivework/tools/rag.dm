@@ -13,8 +13,11 @@
 	material = /decl/material/solid/organic/cloth
 	material_alteration = MAT_FLAG_ALTERATION_NAME
 
-	var/on_fire = 0
+	var/rag_is_on_fire = 0
 	var/burn_time = 20 //if the rag burns for too long it turns to ashes
+
+/obj/item/chems/glass/rag/is_on_fire()
+	return rag_is_on_fire
 
 /obj/item/chems/glass/rag/Initialize()
 	. = ..()
@@ -29,7 +32,7 @@
 	. = ..()
 
 /obj/item/chems/glass/rag/attack_self(mob/user)
-	if(on_fire && user.try_unequip(src))
+	if(is_on_fire() && user.try_unequip(src))
 		user.visible_message(SPAN_NOTICE("\The [user] stamps out [src]."), SPAN_NOTICE("You stamp out [src]."))
 		extinguish()
 	else
@@ -37,11 +40,11 @@
 
 /obj/item/chems/glass/rag/attackby(obj/item/W, mob/user)
 	if(W.isflamesource())
-		if(on_fire)
+		if(is_on_fire())
 			to_chat(user, SPAN_WARNING("\The [src] is already blazing merrily!"))
 			return TRUE
 		ignite()
-		if(on_fire)
+		if(is_on_fire())
 			visible_message(SPAN_DANGER("\The [user] lights \the [src] with \the [W]."))
 		else
 			to_chat(user, SPAN_WARNING("You attempt to light \the [src] with \the [W], but it doesn't seem to be flammable."))
@@ -50,7 +53,7 @@
 	return ..()
 
 /obj/item/chems/glass/rag/update_name()
-	if(on_fire)
+	if(is_on_fire())
 		name_prefix = "burning"
 	else if(reagents && reagents.total_volume)
 		name_prefix = "damp"
@@ -60,7 +63,7 @@
 
 /obj/item/chems/glass/rag/on_update_icon()
 	. = ..()
-	icon_state = "rag[on_fire? "lit" : ""]"
+	icon_state = "rag[is_on_fire() ? "lit" : ""]"
 	var/obj/item/chems/drinks/bottle/B = loc
 	if(istype(B))
 		B.update_icon()
@@ -93,14 +96,14 @@
 
 /obj/item/chems/glass/rag/use_on_mob(mob/living/target, mob/living/user, animate = TRUE)
 
-	if(on_fire)
+	if(is_on_fire())
 		user.visible_message(
 			SPAN_DANGER("\The [user] hits \the [target] with \the [src]!"),
 			SPAN_DANGER("You hit \the [target] with \the [src]!")
 		)
 		user.do_attack_animation(target)
 		admin_attack_log(user, target, "used \the [src] (ignited) to attack", "was attacked using \the [src] (ignited)", "attacked with \the [src] (ignited)")
-		target.IgniteMob()
+		target.ignite_fire()
 		return TRUE
 
 	if(reagents.total_volume)
@@ -150,7 +153,7 @@
 			update_name()
 		return
 
-	if(!on_fire && istype(A) && (src in user))
+	if(!is_on_fire() && istype(A) && (src in user))
 		if(ATOM_IS_OPEN_CONTAINER(A) && !(A in user))
 			remove_contents(user, A)
 		else if(!ismob(A)) //mobs are handled in use_on_mob() - this prevents us from wiping down people while smothering them.
@@ -179,20 +182,20 @@
 	. = (total_fuel >= 2 && total_fuel >= total_volume*0.5)
 
 /obj/item/chems/glass/rag/proc/ignite()
-	if(on_fire)
+	if(is_on_fire())
 		return
 	if(!can_ignite())
 		return
 	START_PROCESSING(SSobj, src)
 	set_light(2, 1, "#e38f46")
-	on_fire = 1
+	rag_is_on_fire = TRUE
 	update_name()
 	update_icon()
 
 /obj/item/chems/glass/rag/proc/extinguish()
 	STOP_PROCESSING(SSobj, src)
 	set_light(0)
-	on_fire = 0
+	rag_is_on_fire = FALSE
 
 	//rags sitting around with 1 second of burn time left is dumb.
 	//ensures players always have a few seconds of burn time left when they light their rag
@@ -211,7 +214,7 @@
 	//copied from matches
 	if(isliving(loc))
 		var/mob/living/M = loc
-		M.IgniteMob()
+		M.ignite_fire()
 	var/turf/location = get_turf(src)
 	if(location)
 		location.hotspot_expose(700, 5)
