@@ -797,13 +797,13 @@
 		return
 	if(IS_SHOVEL(held))
 		if(can_dig_pit(held.material?.hardness))
-			LAZYDISTINCTADD(., /decl/interaction_handler/dig/pit)
+			LAZYADD(., /decl/interaction_handler/dig/pit)
 		if(can_dig_trench(held.material?.hardness))
-			LAZYDISTINCTADD(., /decl/interaction_handler/dig/trench)
+			LAZYADD(., /decl/interaction_handler/dig/trench)
 	if(IS_PICK(held) && can_dig_trench(held.material?.hardness, using_tool = TOOL_PICK))
-		LAZYDISTINCTADD(., /decl/interaction_handler/dig/trench)
+		LAZYADD(., /decl/interaction_handler/dig/trench)
 	if(IS_HOE(held) && can_dig_farm(held.material?.hardness))
-		LAZYDISTINCTADD(., /decl/interaction_handler/dig/farm)
+		LAZYADD(., /decl/interaction_handler/dig/farm)
 
 /decl/interaction_handler/show_turf_contents
 	name = "Show Turf Contents"

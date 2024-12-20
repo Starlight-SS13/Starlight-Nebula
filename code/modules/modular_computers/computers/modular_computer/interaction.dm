@@ -136,10 +136,13 @@
 
 /obj/item/modular_computer/get_alt_interactions(var/mob/user)
 	. = ..()
-	LAZYADD(., /decl/interaction_handler/remove_id/modular_computer)
-	LAZYADD(., /decl/interaction_handler/remove_pen/modular_computer)
-	LAZYADD(., /decl/interaction_handler/emergency_shutdown)
-	LAZYADD(., /decl/interaction_handler/remove_chargestick)
+	var/static/list/_modular_computer_interactions = list(
+		/decl/interaction_handler/remove_id/modular_computer,
+		/decl/interaction_handler/remove_pen/modular_computer,
+		/decl/interaction_handler/emergency_shutdown,
+		/decl/interaction_handler/remove_chargestick
+	)
+	LAZYADD(., _modular_computer_interactions)
 
 //
 // Remove ID

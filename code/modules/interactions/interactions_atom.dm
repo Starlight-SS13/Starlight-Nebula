@@ -1,4 +1,4 @@
-/atom/proc/try_handle_interactions(var/mob/user, var/list/interactions, var/obj/item/prop)
+/atom/proc/try_handle_interactions(var/mob/user, var/list/interactions, var/obj/item/prop, var/check_alt_interactions)
 
 	if(!length(interactions))
 		return FALSE
@@ -20,7 +20,14 @@
 		choice = show_radial_menu(user, src, possibilities, use_labels = RADIAL_LABELS_CENTERED)
 		if(!istype(choice) || QDELETED(user) || QDELETED(src))
 			return TRUE
-		if(!(choice.type in get_alt_interactions(user)) || !choice.is_possible(src, user, user.get_active_held_item()))
+		// This is not ideal but I don't want to pass a callback through here as a param and call it. :(
+		if(check_alt_interactions)
+			if(!(choice.type in get_alt_interactions(user)))
+				return TRUE
+		else
+			if(!(choice.type in get_standard_interactions(user)))
+				return TRUE
+		if(!choice.is_possible(src, user, user.get_active_held_item()))
 			return TRUE
 
 	user.face_atom(src)

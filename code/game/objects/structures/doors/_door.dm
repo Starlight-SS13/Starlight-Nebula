@@ -205,7 +205,7 @@
 /obj/structure/door/get_alt_interactions(var/mob/user)
 	. = ..()
 	if(density)
-		. += /decl/interaction_handler/knock_on_door
+		LAZYADD(., /decl/interaction_handler/knock_on_door)
 
 /decl/interaction_handler/knock_on_door
 	name = "Knock On Door"

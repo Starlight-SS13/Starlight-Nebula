@@ -893,6 +893,17 @@
 		check_loc = check_loc.loc
 
 /**
+	Get a list of standard interactions for a user from this atom.
+
+	- `user`: The mob that these alt interactions are for
+	- Return: A list containing the alt interactions
+*/
+/atom/proc/get_standard_interactions(var/mob/user)
+	SHOULD_CALL_PARENT(TRUE)
+	RETURN_TYPE(/list)
+	return null
+
+/**
 	Get a list of alt interactions for a user from this atom.
 
 	- `user`: The mob that these alt interactions are for
@@ -901,9 +912,8 @@
 /atom/proc/get_alt_interactions(var/mob/user)
 	SHOULD_CALL_PARENT(TRUE)
 	RETURN_TYPE(/list)
-	. = list()
 	if(storage)
-		. += /decl/interaction_handler/storage_open
+		LAZYADD(., /decl/interaction_handler/storage_open)
 	if(reagents?.maximum_volume)
 		var/static/list/_reagent_interactions = list(
 			/decl/interaction_handler/wash_hands,

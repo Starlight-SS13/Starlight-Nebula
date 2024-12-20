@@ -91,4 +91,4 @@
 
 /obj/item/paper/get_alt_interactions(mob/user)
 	. = ..()
-	LAZYDISTINCTADD(., /decl/interaction_handler/make_paper_plane)
+	LAZYADD(., /decl/interaction_handler/make_paper_plane)
