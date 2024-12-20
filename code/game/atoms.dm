@@ -903,38 +903,6 @@
 			return check_loc
 		check_loc = check_loc.loc
 
-/**
-	Get a list of standard interactions for a user from this atom.
-
-	- `user`: The mob that these alt interactions are for
-	- Return: A list containing the alt interactions
-*/
-/atom/proc/get_standard_interactions(var/mob/user)
-	SHOULD_CALL_PARENT(TRUE)
-	RETURN_TYPE(/list)
-	return null
-
-/**
-	Get a list of alt interactions for a user from this atom.
-
-	- `user`: The mob that these alt interactions are for
-	- Return: A list containing the alt interactions
-*/
-/atom/proc/get_alt_interactions(var/mob/user)
-	SHOULD_CALL_PARENT(TRUE)
-	RETURN_TYPE(/list)
-	if(storage)
-		LAZYADD(., /decl/interaction_handler/storage_open)
-	if(reagents?.maximum_volume)
-		var/static/list/_reagent_interactions = list(
-			/decl/interaction_handler/wash_hands,
-			/decl/interaction_handler/drink,
-			/decl/interaction_handler/dip_item,
-			/decl/interaction_handler/fill_from,
-			/decl/interaction_handler/empty_into
-		)
-		LAZYADD(., _reagent_interactions)
-
 /atom/proc/can_climb_from_below(var/mob/climber)
 	return FALSE
 
@@ -1021,3 +989,6 @@
 
 /atom/proc/is_watertight()
 	return ATOM_IS_OPEN_CONTAINER(src)
+
+/atom/proc/can_drink_from(mob/user)
+	return ATOM_IS_OPEN_CONTAINER(src) && reagents?.total_volume && user.check_has_mouth()

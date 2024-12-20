@@ -21,7 +21,7 @@
 		return
 	if(target.reagents?.total_volume < FLUID_PUDDLE)
 		return FALSE
-	if(!isitem(target) && !istype(target, /obj/structure/reagent_dispensers))
+	if(!istype(prop) || (!isitem(target) && !istype(target, /obj/structure/reagent_dispensers)))
 		return FALSE
 	return target.can_be_poured_from(user, prop) && prop.can_be_poured_into(user, target)
 
@@ -57,7 +57,7 @@
 	examine_desc = "wash your hands in $TARGET_THEM$"
 
 /decl/interaction_handler/wash_hands/is_possible(atom/target, mob/user, obj/item/prop)
-	. = ..() && target?.reagents?.has_reagent(/decl/material/liquid/water, 150)
+	. = ..() && !istype(prop) && target?.reagents?.has_reagent(/decl/material/liquid/water, 150)
 	if(.)
 		for(var/hand_slot in user.get_held_item_slots())
 			var/obj/item/organ/external/organ = user.get_organ(hand_slot)
@@ -106,7 +106,7 @@
 	examine_desc = "drink from $TARGET_THEM$"
 
 /decl/interaction_handler/drink/is_possible(atom/target, mob/user, obj/item/prop)
-	return ..() && ATOM_IS_OPEN_CONTAINER(target) && target?.reagents?.total_volume && user.check_has_mouth() && !istype(target, /obj/item)
+	return ..() && !istype(prop) && target.can_drink_from(user)
 
 /decl/interaction_handler/drink/invoked(atom/target, mob/user, obj/item/prop)
 

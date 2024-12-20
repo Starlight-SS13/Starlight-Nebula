@@ -742,6 +742,7 @@
 #include "code\game\atoms_fires.dm"
 #include "code\game\atoms_fluids.dm"
 #include "code\game\atoms_init.dm"
+#include "code\game\atoms_interactions.dm"
 #include "code\game\atoms_layering.dm"
 #include "code\game\atoms_movable.dm"
 #include "code\game\atoms_movable_grabs.dm"

@@ -56,17 +56,6 @@
 /obj/item/chems/glass/proc/can_lid()
 	return TRUE
 
-/obj/item/chems/glass/attack_self(mob/user)
-	. = ..()
-	if(!. && can_lid())
-		if(ATOM_IS_OPEN_CONTAINER(src))
-			to_chat(user, SPAN_NOTICE("You put the lid on \the [src]."))
-			atom_flags ^= ATOM_FLAG_OPEN_CONTAINER
-		else
-			to_chat(user, SPAN_NOTICE("You take the lid off \the [src]."))
-			atom_flags |= ATOM_FLAG_OPEN_CONTAINER
-		update_icon()
-
 /obj/item/chems/glass/use_on_mob(mob/living/target, mob/living/user, animate = TRUE)
 	if(get_attack_force(user) && !(item_flags & ITEM_FLAG_NO_BLUDGEON) && user.check_intent(I_FLAG_HARM))
 		return ..()
@@ -98,3 +87,30 @@
 		reagents.splash(target, min(reagents.total_volume, 5))
 		return TRUE
 	. = ..()
+
+/obj/item/chems/glass/get_alt_interactions(mob/user)
+	. = ..()
+	if(can_lid())
+		LAZYADD(., /decl/interaction_handler/toggle_lid)
+
+/decl/interaction_handler/toggle_lid
+	name = "Toggle Lid"
+	expected_target_type = /obj/item/chems/glass
+
+/decl/interaction_handler/toggle_lid/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..()
+	if(. && !istype(prop))
+		var/obj/item/chems/glass/glass = target
+		return glass.can_lid()
+
+/decl/interaction_handler/toggle_lid/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/item/chems/glass/glass = target
+	if(istype(glass) && glass.can_lid())
+		if(ATOM_IS_OPEN_CONTAINER(glass))
+			to_chat(user, SPAN_NOTICE("You put the lid on \the [glass]."))
+			glass.atom_flags ^= ATOM_FLAG_OPEN_CONTAINER
+		else
+			to_chat(user, SPAN_NOTICE("You take the lid off \the [glass]."))
+			glass.atom_flags |= ATOM_FLAG_OPEN_CONTAINER
+		glass.update_icon()
+	return TRUE

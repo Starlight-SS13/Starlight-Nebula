@@ -74,6 +74,11 @@
 	if(istype(loc, /obj/structure/cask_rack))
 		loc.update_icon()
 
+/obj/structure/reagent_dispensers/barrel/get_standard_interactions(var/mob/user)
+	. = ..()
+	if(reagents?.maximum_volume)
+		LAZYADD(., global._reagent_interactions)
+
 /obj/structure/reagent_dispensers/barrel/ebony
 	material = /decl/material/solid/organic/wood/ebony
 	color = /decl/material/solid/organic/wood/ebony::color

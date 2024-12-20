@@ -40,6 +40,11 @@
 	if(!is_processing && auto_refill)
 		START_PROCESSING(SSobj, src)
 
+/obj/structure/reagent_dispensers/well/get_standard_interactions(var/mob/user)
+	. = ..()
+	if(reagents?.maximum_volume)
+		LAZYADD(., global._reagent_interactions)
+
 /obj/structure/reagent_dispensers/well/Process()
 	if(!reagents || !auto_refill) // if we're full, we only stop at the end of the proc; we need to check for contaminants first
 		return PROCESS_KILL
