@@ -211,6 +211,7 @@
 	name = "Knock On Door"
 	expected_target_type = /obj/structure/door
 	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEEDS_TURF
+	examine_desc = "knock on $TARGET_THEM$"
 
 /decl/interaction_handler/knock_on_door/invoked(atom/target, mob/user, obj/item/prop)
 	if(!istype(target) || !target.density)

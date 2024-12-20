@@ -119,6 +119,7 @@
 	name                 = "Next Nozzle Setting"
 	expected_target_type = /obj/item/chems/spray
 	interaction_flags    = INTERACTION_NEEDS_INVENTORY | INTERACTION_NEEDS_PHYSICAL_INTERACTION
+	examine_desc         = "select the next nozzle spray amount"
 
 /decl/interaction_handler/next_spray_amount/is_possible(obj/item/chems/spray/target, mob/user, obj/item/prop)
 	. = ..()

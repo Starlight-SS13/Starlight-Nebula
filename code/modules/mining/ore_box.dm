@@ -148,6 +148,7 @@
 /decl/interaction_handler/empty/ore_box
 	name = "Empty Box"
 	expected_target_type = /obj/structure/ore_box
+	examine_desc = "empty $TARGET_THEM$"
 
 /decl/interaction_handler/empty/ore_box/is_possible(obj/structure/ore_box/target, mob/user, obj/item/prop)
 	return ..() && target.total_ores > 0

@@ -293,6 +293,17 @@
 
 	to_chat(user, "[html_icon(src)] That's [f_name] [suffix]")
 	to_chat(user, desc)
+
+	var/list/alt_interactions = get_alt_interactions(user)
+	if(LAZYLEN(alt_interactions))
+		var/list/interaction_strings = list()
+		for(var/interaction_type as anything in alt_interactions)
+			var/decl/interaction_handler/interaction = GET_DECL(interaction_type)
+			if(interaction.examine_desc && (interaction.always_show_on_examine || interaction.is_possible(src, user, user?.get_active_held_item())))
+				interaction_strings += emote_replace_target_tokens(interaction.examine_desc, src)
+		if(length(interaction_strings))
+			to_chat(user, SPAN_INFO("Alt-click on \the [src] to [english_list(interaction_strings, and_text = " or ")]."))
+
 	RAISE_EVENT(/decl/observ/atom_examined, src, user, distance)
 	return TRUE
 

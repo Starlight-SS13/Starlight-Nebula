@@ -184,6 +184,7 @@
 	icon = 'icons/screen/radial.dmi'
 	icon_state = "radial_power_off"
 	expected_target_type = /obj/item/modular_computer
+	examine_desc = "perform an emergency shutdown"
 
 /decl/interaction_handler/emergency_shutdown/is_possible(atom/target, mob/user, obj/item/prop)
 	. = ..()
@@ -204,6 +205,7 @@
 	icon = 'icons/screen/radial.dmi'
 	icon_state = "radial_eject"
 	expected_target_type = /obj/item/modular_computer
+	examine_desc = "remove a chargestick"
 
 /decl/interaction_handler/remove_chargestick/is_possible(atom/target, mob/user, obj/item/prop)
 	. = ..()

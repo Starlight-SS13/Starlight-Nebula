@@ -357,6 +357,7 @@
 /decl/interaction_handler/toggle_open/reagent_dispenser
 	name                 = "Toggle refilling cap"
 	expected_target_type = /obj/structure/reagent_dispensers
+	examine_desc         = "open or close the refilling cap"
 
 /decl/interaction_handler/toggle_open/reagent_dispenser/invoked(atom/target, mob/user, obj/item/prop)
 	if(target.atom_flags & ATOM_FLAG_OPEN_CONTAINER)

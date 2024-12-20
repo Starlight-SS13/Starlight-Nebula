@@ -1,6 +1,7 @@
 /decl/interaction_handler/dip_item
-	name = "Dip Held Item In"
+	name = "Dip Into"
 	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEVER_AUTOMATIC
+	examine_desc = "dip an item into $TARGET_THEM$"
 
 /decl/interaction_handler/dip_item/is_possible(atom/target, mob/user, obj/item/prop)
 	return ..() && target.reagents?.total_volume >= FLUID_PUDDLE && istype(prop) && target.can_be_poured_from(user, prop)
@@ -11,15 +12,14 @@
 	return TRUE
 
 /decl/interaction_handler/fill_from
-	name = "Fill Held Item From"
+	name = "Fill From"
 	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEVER_AUTOMATIC
+	examine_desc = "fill a held item from $TARGET_THEM$"
 
 /decl/interaction_handler/fill_from/is_possible(atom/target, mob/user, obj/item/prop)
 	if(!(. = ..()))
 		return
 	if(target.reagents?.total_volume < FLUID_PUDDLE)
-		return FALSE
-	if(!istype(prop) || prop.reagents?.maximum_volume <= 0)
 		return FALSE
 	if(!isitem(target) && !istype(target, /obj/structure/reagent_dispensers))
 		return FALSE
@@ -30,12 +30,14 @@
 		var/obj/item/vessel = target
 		return vessel.standard_pour_into(user, prop)
 	if(istype(target, /obj/structure/reagent_dispensers))
-		return prop.standard_dispenser_refill(user, target)
+		// Reagent dispensers have some wonky assumptions due to old UX around filling/emptying so we skip the atom flags check.
+		return prop.standard_dispenser_refill(user, target, skip_container_check = TRUE)
 	return FALSE
 
 /decl/interaction_handler/empty_into
-	name = "Empty Held Item Into"
+	name = "Pour Into"
 	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEVER_AUTOMATIC
+	examine_desc = "pour a held item into $TARGET_THEM$"
 
 /decl/interaction_handler/empty_into/is_possible(atom/target, mob/user, obj/item/prop)
 	if(!(. = ..()))
@@ -52,6 +54,7 @@
 	name = "Wash Hands"
 	expected_target_type = /atom
 	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEVER_AUTOMATIC
+	examine_desc = "wash your hands in $TARGET_THEM$"
 
 /decl/interaction_handler/wash_hands/is_possible(atom/target, mob/user, obj/item/prop)
 	. = ..() && target?.reagents?.has_reagent(/decl/material/liquid/water, 150)
@@ -100,6 +103,7 @@
 	name = "Drink"
 	expected_target_type = /atom
 	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEVER_AUTOMATIC
+	examine_desc = "drink from $TARGET_THEM$"
 
 /decl/interaction_handler/drink/is_possible(atom/target, mob/user, obj/item/prop)
 	return ..() && ATOM_IS_OPEN_CONTAINER(target) && target?.reagents?.total_volume && user.check_has_mouth() && !istype(target, /obj/item)

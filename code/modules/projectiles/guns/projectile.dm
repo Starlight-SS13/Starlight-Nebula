@@ -354,6 +354,7 @@
 
 /decl/interaction_handler/projectile/remove_silencer
 	name = "Remove Silencer"
+	examine_desc = "remove the silencer"
 
 /decl/interaction_handler/projectile/remove_silencer/invoked(atom/target, mob/user, obj/item/prop)
 	var/obj/item/gun/projectile/gun = target
@@ -361,6 +362,7 @@
 
 /decl/interaction_handler/projectile/unload_ammo
 	name = "Remove Ammunition"
+	examine_desc = "unload the ammunition"
 
 /decl/interaction_handler/projectile/unload_ammo/invoked(atom/target, mob/user, obj/item/prop)
 	var/obj/item/gun/projectile/gun = target

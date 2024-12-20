@@ -514,6 +514,7 @@
 /decl/interaction_handler/adjust_draught
 	name = "Adjust Draught"
 	expected_target_type = /obj/structure/fire_source
+	examine_desc = "adjust the draught"
 
 /decl/interaction_handler/adjust_draught/invoked(atom/target, mob/user, obj/item/prop)
 	var/obj/structure/fire_source/fire = target
