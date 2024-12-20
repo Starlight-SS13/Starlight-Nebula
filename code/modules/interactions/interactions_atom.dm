@@ -18,9 +18,13 @@
 	if(length(possibilities) > 1 || (choice.interaction_flags & INTERACTION_NEVER_AUTOMATIC))
 		choice = null
 		choice = show_radial_menu(user, src, possibilities, use_labels = RADIAL_LABELS_CENTERED)
-		if(!istype(choice) || QDELETED(user) || !(choice.type in get_alt_interactions(user)) || !choice.is_possible(src, user, prop))
+		if(!istype(choice) || QDELETED(user) || QDELETED(src))
+			return TRUE
+		if(!(choice.type in get_alt_interactions(user)) || !choice.is_possible(src, user, user.get_active_held_item()))
 			return TRUE
 
 	user.face_atom(src)
 	choice.invoked(src, user, prop)
+	if(choice.apply_click_cooldown)
+		user.setClickCooldown(choice.apply_click_cooldown)
 	return TRUE

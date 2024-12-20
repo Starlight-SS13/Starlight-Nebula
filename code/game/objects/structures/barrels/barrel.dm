@@ -30,13 +30,6 @@
 	if(. == INITIALIZE_HINT_NORMAL && storage)
 		return INITIALIZE_HINT_LATELOAD //  we want to grab our turf contents.
 
-/obj/structure/reagent_dispensers/barrel/attackby(obj/item/W, mob/user)
-	. = ..()
-	if(!. && user.check_intent(I_FLAG_HELP) && reagents?.total_volume > FLUID_PUDDLE)
-		user.visible_message(SPAN_NOTICE("\The [user] dips \the [W] into \the [reagents.get_primary_reagent_name()]."))
-		W.fluid_act(reagents)
-		return TRUE
-
 /obj/structure/reagent_dispensers/barrel/LateInitialize(mapload, ...)
 	..()
 	if(mapload)

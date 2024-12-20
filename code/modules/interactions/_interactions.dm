@@ -7,6 +7,7 @@
 	var/expected_user_type = /mob/living
 	var/interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION
 	var/incapacitation_flags
+	var/apply_click_cooldown = DEFAULT_ATTACK_COOLDOWN
 
 /decl/interaction_handler/proc/is_possible(var/atom/target, var/mob/user, var/obj/item/prop)
 

@@ -904,9 +904,15 @@
 	. = list()
 	if(storage)
 		. += /decl/interaction_handler/storage_open
-	if(reagents?.total_volume && ATOM_IS_OPEN_CONTAINER(src))
-		. += /decl/interaction_handler/wash_hands
-		. += /decl/interaction_handler/drink
+	if(reagents?.maximum_volume)
+		var/static/list/_reagent_interactions = list(
+			/decl/interaction_handler/wash_hands,
+			/decl/interaction_handler/drink,
+			/decl/interaction_handler/dip_item,
+			/decl/interaction_handler/fill_from,
+			/decl/interaction_handler/empty_into
+		)
+		LAZYADD(., _reagent_interactions)
 
 /atom/proc/can_climb_from_below(var/mob/climber)
 	return FALSE
