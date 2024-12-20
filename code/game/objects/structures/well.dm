@@ -18,6 +18,10 @@
 	can_toggle_open           = FALSE
 	var/auto_refill
 
+// Override to skip open container check.
+/obj/structure/reagent_dispensers/well/can_drink_from(mob/user)
+	return reagents?.total_volume && user.check_has_mouth()
+
 /obj/structure/reagent_dispensers/well/populate_reagents()
 	. = ..()
 	if(auto_refill)
@@ -39,6 +43,12 @@
 	update_icon()
 	if(!is_processing && auto_refill)
 		START_PROCESSING(SSobj, src)
+
+// Overrides due to wonky reagent_dispeners opencontainer flag handling.
+/obj/structure/reagent_dispensers/well/can_be_poured_from(mob/user, atom/target)
+	return (reagents?.maximum_volume > 0)
+/obj/structure/reagent_dispensers/well/can_be_poured_into(mob/user, atom/target)
+	return (reagents?.maximum_volume > 0)
 
 /obj/structure/reagent_dispensers/well/get_standard_interactions(var/mob/user)
 	. = ..()
