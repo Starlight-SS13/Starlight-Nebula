@@ -19,11 +19,6 @@
 
 	var/obj/item/stack/material/brick/reinforced_with
 
-/obj/machinery/portable_atmospherics/hydroponics/soil/get_alt_interactions(var/mob/user)
-	. = ..()
-	. -= /decl/interaction_handler/drink
-	. -= /decl/interaction_handler/wash_hands
-
 /obj/machinery/portable_atmospherics/hydroponics/soil/Initialize()
 
 	. = ..()

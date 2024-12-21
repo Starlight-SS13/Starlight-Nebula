@@ -759,6 +759,7 @@
 
 /decl/interaction_handler/gun/toggle_safety
 	name = "Toggle Safety"
+	examine_desc = "toggle the safety"
 
 /decl/interaction_handler/gun/toggle_safety/invoked(atom/target, mob/user, obj/item/prop)
 	var/obj/item/gun/gun = target
@@ -766,6 +767,7 @@
 
 /decl/interaction_handler/gun/toggle_firemode
 	name = "Change Firemode"
+	examine_desc = "change the firemode"
 
 /decl/interaction_handler/gun/toggle_firemode/invoked(atom/target, mob/user, obj/item/prop)
 	var/obj/item/gun/gun = target

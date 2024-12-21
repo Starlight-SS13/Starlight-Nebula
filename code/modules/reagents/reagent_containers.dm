@@ -192,6 +192,7 @@
 
 /decl/interaction_handler/set_transfer/chems
 	expected_target_type = /obj/item/chems
+	examine_desc         = "set the transfer volume"
 
 /decl/interaction_handler/set_transfer/chems/is_possible(var/atom/target, var/mob/user)
 	. = ..()
@@ -208,6 +209,7 @@
 	name                 = "Empty On Floor"
 	expected_target_type = /obj/item/chems
 	interaction_flags    = INTERACTION_NEEDS_INVENTORY | INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEVER_AUTOMATIC
+	examine_desc         = "empty $TARGET_THEM$ onto the floor"
 
 /decl/interaction_handler/empty/chems/invoked(atom/target, mob/user, obj/item/prop)
 	var/turf/T = get_turf(user)

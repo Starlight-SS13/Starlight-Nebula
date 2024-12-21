@@ -669,6 +669,7 @@
 
 /decl/interaction_handler/hydroponics/close_lid
 	name = "Open/Close Lid"
+	examine_desc = "open or close the lid"
 
 /decl/interaction_handler/hydroponics/close_lid/is_possible(atom/target, mob/user, obj/item/prop)
 	var/obj/machinery/portable_atmospherics/hydroponics/tray = target
@@ -680,6 +681,7 @@
 
 /decl/interaction_handler/hydroponics/sample
 	name = "Sample Plant"
+	examine_desc = "take a sample"
 
 /decl/interaction_handler/hydroponics/sample/is_possible(atom/target, mob/user, obj/item/prop)
 	return ..() && istype(prop) && prop.edge && prop.w_class < ITEM_SIZE_NORMAL

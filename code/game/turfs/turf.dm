@@ -284,19 +284,6 @@
 	if(IS_COIL(W) && try_build_cable(W, user))
 		return TRUE
 
-	if(reagents?.total_volume >= FLUID_PUDDLE)
-		if(ATOM_IS_OPEN_CONTAINER(W) && W.reagents)
-			var/taking = min(reagents.total_volume, REAGENTS_FREE_SPACE(W.reagents))
-			if(taking > 0)
-				to_chat(user, SPAN_NOTICE("You fill \the [W] with [reagents.get_primary_reagent_name()] from \the [src]."))
-				reagents.trans_to(W, taking)
-				return TRUE
-
-		if(user.check_intent(I_FLAG_HELP))
-			user.visible_message(SPAN_NOTICE("\The [user] dips \the [W] into \the [reagents.get_primary_reagent_name()]."))
-			W.fluid_act(reagents)
-			return TRUE
-
 	return ..()
 
 /turf/Enter(atom/movable/mover, atom/forget)
@@ -805,23 +792,24 @@
 /turf/get_alt_interactions(mob/user)
 	. = ..()
 	LAZYADD(., /decl/interaction_handler/show_turf_contents)
-	if(user)
-		var/obj/item/held = user.get_active_held_item()
-		if(istype(held))
-			if(IS_SHOVEL(held))
-				if(can_dig_pit(held.material?.hardness))
-					LAZYDISTINCTADD(., /decl/interaction_handler/dig/pit)
-				if(can_dig_trench(held.material?.hardness))
-					LAZYDISTINCTADD(., /decl/interaction_handler/dig/trench)
-			if(IS_PICK(held) && can_dig_trench(held.material?.hardness, using_tool = TOOL_PICK))
-				LAZYDISTINCTADD(., /decl/interaction_handler/dig/trench)
-			if(IS_HOE(held) && can_dig_farm(held.material?.hardness))
-				LAZYDISTINCTADD(., /decl/interaction_handler/dig/farm)
+	var/obj/item/held = user?.get_active_held_item()
+	if(!istype(held))
+		return
+	if(IS_SHOVEL(held))
+		if(can_dig_pit(held.material?.hardness))
+			LAZYADD(., /decl/interaction_handler/dig/pit)
+		if(can_dig_trench(held.material?.hardness))
+			LAZYADD(., /decl/interaction_handler/dig/trench)
+	if(IS_PICK(held) && can_dig_trench(held.material?.hardness, using_tool = TOOL_PICK))
+		LAZYADD(., /decl/interaction_handler/dig/trench)
+	if(IS_HOE(held) && can_dig_farm(held.material?.hardness))
+		LAZYADD(., /decl/interaction_handler/dig/farm)
 
 /decl/interaction_handler/show_turf_contents
 	name = "Show Turf Contents"
 	expected_user_type = /mob
 	interaction_flags = 0
+	examine_desc = "list everything on $TARGET_THEM$"
 
 /decl/interaction_handler/show_turf_contents/invoked(atom/target, mob/user, obj/item/prop)
 	target.show_atom_list_for_turf(user, get_turf(target))
@@ -834,6 +822,7 @@
 
 /decl/interaction_handler/dig/trench
 	name = "Dig Trench"
+	examine_desc = "dig a trench"
 
 /decl/interaction_handler/dig/trench/invoked(atom/target, mob/user, obj/item/prop)
 	var/turf/T = get_turf(target)
@@ -847,6 +836,7 @@
 
 /decl/interaction_handler/dig/pit
 	name = "Dig Pit"
+	examine_desc = "dig a pit"
 
 /decl/interaction_handler/dig/pit/invoked(atom/target, mob/user, obj/item/prop)
 	var/turf/T = get_turf(target)
@@ -855,6 +845,7 @@
 
 /decl/interaction_handler/dig/farm
 	name = "Dig Farm Plot"
+	examine_desc = "dig a farm plot"
 
 /decl/interaction_handler/dig/farm/invoked(atom/target, mob/user, obj/item/prop)
 	var/turf/T = get_turf(target)
