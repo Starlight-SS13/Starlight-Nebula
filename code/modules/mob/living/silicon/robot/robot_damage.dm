@@ -15,13 +15,19 @@
 /mob/living/silicon/robot/adjustBruteLoss(var/amount, var/do_update_health = TRUE)
 	SHOULD_CALL_PARENT(FALSE) // take/heal overall call update_health regardless of arg
 	if(amount > 0)
+		var/old_health = current_health
 		take_overall_damage(amount, 0)
+		if(current_health - old_health <= -3)
+			flash_silhouette(flash_color = COLOR_RED)
 	else
 		heal_overall_damage(-amount, 0)
 
 /mob/living/silicon/robot/adjustFireLoss(var/amount, var/do_update_health = TRUE)
 	if(amount > 0)
+		var/old_health = current_health
 		take_overall_damage(0, amount)
+		if(current_health - old_health <= -3)
+			flash_silhouette(flash_color = COLOR_ORANGE)
 	else
 		heal_overall_damage(0, -amount)
 

@@ -37,13 +37,21 @@
 /mob/living/simple_animal/adjustBruteLoss(var/amount, var/do_update_health = TRUE)
 	brute_damage = clamp(brute_damage + amount, 0, get_max_health())
 	. = ..()
+	if(amount > 0)
+		if(istype(ai))
+			ai.retaliate()
+		if(amount >= 3)
+			flash_silhouette(flash_color = COLOR_RED)
 
 /mob/living/simple_animal/adjustFireLoss(var/amount, var/do_update_health = TRUE)
 	burn_damage = clamp(burn_damage + amount, 0, get_max_health())
 	if(do_update_health)
 		update_health()
-	if(amount > 0 && istype(ai))
-		ai.retaliate()
+	if(amount > 0 )
+		if(istype(ai))
+			ai.retaliate()
+		if(amount >= 3)
+			flash_silhouette(flash_color = COLOR_ORANGE)
 
 /mob/living/simple_animal/hit_with_weapon(obj/item/O, mob/living/user, var/effective_force, var/hit_zone)
 
