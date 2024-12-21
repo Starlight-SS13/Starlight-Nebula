@@ -117,11 +117,8 @@
 	..()
 	if(!QDELETED(src) && fluids?.total_volume)
 		fluids.touch_turf(src)
-		// technically, fluids might not be our own reagent holder
-		// so we factor in height ourselves
-		var/fluid_height = fluids.total_volume + get_physical_height()
 		for(var/atom/movable/AM as anything in get_contained_external_atoms())
-			if(!AM.submerged(fluid_height))
+			if(!AM.submerged())
 				continue
 			AM.fluid_act(fluids)
 

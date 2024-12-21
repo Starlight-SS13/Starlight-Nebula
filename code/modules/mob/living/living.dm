@@ -853,8 +853,13 @@ default behaviour is:
 	fluids.touch_mob(src)
 	if(QDELETED(src) || !fluids.total_volume)
 		return
+	var/on_turf = fluids.my_atom == get_turf(src)
 	for(var/atom/movable/A as anything in get_equipped_items(TRUE))
 		if(!A.simulated)
+			continue
+		// if we're being affected by reagent fluids, items check if they're submerged
+		// todo: i don't like how this works, it feels hacky. maybe separate coating and submersion somehow and make this only checked for submersion
+		if(on_turf && !A.submerged())
 			continue
 		A.fluid_act(fluids)
 		if(QDELETED(src) || !fluids.total_volume)

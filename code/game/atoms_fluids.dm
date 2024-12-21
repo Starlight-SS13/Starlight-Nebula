@@ -24,11 +24,12 @@
 	return T?.is_flooded(lying_mob, absolute)
 
 /atom/proc/submerged(depth, above_turf)
+	var/turf/T = get_turf(src)
 	if(isnull(depth))
-		var/turf/T = get_turf(src)
 		if(!istype(T))
 			return FALSE
 		depth = T.get_fluid_depth()
+	if(istype(T))
 		var/turf_height = T.get_physical_height()
 		// If we're not on the surface of the turf (floating, leaping, or other sources)
 		// then we add the turf height to the depth, so you can jump over a water-filled pit
@@ -50,7 +51,7 @@
 	return ..()
 
 /obj/item/submerged(depth, above_turf)
-	var/datum/inventory_slot/slot = get_any_equipped_slot()
+	var/datum/inventory_slot/slot = get_any_equipped_slot_datum()
 	// we're in a mob and have a slot, so we bail early
 	if(istype(slot))
 		var/mob/owner = loc // get_any_equipped_slot checks istype already
